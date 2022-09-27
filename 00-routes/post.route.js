@@ -1,7 +1,7 @@
 'use strict';
 
 const express = require('express');
-const { postModel } = require('../03-models');
+const { postModel, commentModel } = require('../03-models');
 
 const router = express.Router();
 
@@ -28,7 +28,7 @@ async function Addpost(req, res, next) {
 
 async function getPosts(req, res, next) {
   try {
-    let posts = await postModel.findAll();
+    let posts = await postModel.findAll({ include: commentModel });
     res.status(200).send(posts);
   } catch (err) {
     next(`Error inside getPosts function : ${err}`);
@@ -54,8 +54,8 @@ async function updatePost(req, res, next) {
     let id = req.params.id;
     let newPostData = req.body;  //req.body : {"title":"any new data", "content":"any new data"}
     await postModel.update(newPostData, { where: { id } });
-    let post = await postModel.findOne({ where: { id } });
-    res.status(200).send(post);
+    let updatedPost = await postModel.findOne({ where: { id } });
+    res.status(200).send(updatedPost);
   } catch (err) {
     next(`Error inside updatePost function : ${err}`);
   }
@@ -72,5 +72,6 @@ async function deletePost(req, res, next) {
 }
 
 //===== Export =====//
+
 
 module.exports = router;
