@@ -4,13 +4,15 @@ const express = require('express');
 const cors = require('cors');
 const { notFound } = require('./02-error-handlers/404');
 const { errorHandler } = require('./02-error-handlers/500');
+const postRoutes = require('./00-routes/post.route');
 require('dotenv').config();
 
 
 const app = express();
-
 app.use(cors());
 app.use(express.json());
+
+app.use(postRoutes);
 
 app.get('/', (req, res) => res.status(200).json(`Main page`));
 
