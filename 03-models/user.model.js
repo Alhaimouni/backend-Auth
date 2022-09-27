@@ -1,26 +1,16 @@
 'use strict';
 
-function userModel(sequelize, Datatypes) {
+function createUserModel(sequelize, Datatypes) {
   return (
     sequelize.define('user', {
-      token: { type: Datatypes.VIRTUAL },
-      username: { type: Datatypes.STRING, unique: true, allowNull: false },
+      username: { type: Datatypes.STRING, allowNull: false, unique: true },
+      email: { type: Datatypes.STRING, allowNull: false, unique: true },
       password: { type: Datatypes.STRING, allowNull: false },
-      email: { type: Datatypes.STRING, unique: true, allowNull: false },
-      role: { type: Datatypes.ENUM('admin', 'user'), defaultValue: 'user' },
-      capabilites: {
-        type: Datatypes.VIRTUAL,
-        get() {
-          const cap = {
-            admin: ['create', 'read', 'update', 'delete'],
-            user: ['create', 'read']
-          }
-          return (cap[this.role]);
-        }
-      },
+      token: { type: Datatypes.VIRTUAL }
     })
-  );
+  )
 }
 
 
-module.exports = { userModel };
+
+module.exports = { createUserModel };

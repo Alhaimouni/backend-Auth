@@ -3,6 +3,7 @@
 const { Sequelize, DataTypes } = require('sequelize');
 const { createCommentModel } = require('./comment.model');
 const { createPostModel } = require('./post.model');
+const { createUserModel } = require('./user.model');
 require('dotenv').config();
 
 
@@ -23,14 +24,16 @@ sequelize.authenticate()
   .then(() => { console.log(` Connected to DMBS`) })
   .catch((reject) => { console.log(`Rejected : ${reject}`) });
 
+
 const postModel = createPostModel(sequelize, DataTypes);
 const commentModel = createCommentModel(sequelize, DataTypes);
+const userModel = createUserModel(sequelize, DataTypes);
 
 postModel.hasMany(commentModel, { foreignKey: "postId", sourceKey: "id" });
 commentModel.belongsTo(postModel, { foreignKey: "postId", targetKey: "id" });
 
 
-module.exports = { sequelize, postModel, commentModel };
+module.exports = { sequelize, postModel, commentModel, userModel };
 
 
 
