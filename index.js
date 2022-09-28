@@ -9,5 +9,5 @@ require('dotenv').config();
 
 sequelize.sync()
   .then(()=>{serverStart(process.env.PORT)})
-  .catch(()=>{console.log(`cannot sync models with DBMS`)});
+  .catch(()=>{console.log(`cannot sync models with Database `)});
 

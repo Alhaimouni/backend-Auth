@@ -6,7 +6,7 @@ const router = express.Router();
 
 
 
-router.post('/comment/:postID', addComment);
+router.post('/comment/:postID/:userID', addComment);
 
 
 
@@ -17,7 +17,8 @@ async function addComment(req, res, next) {
   try {
     const commentData = {
       content: req.body.content,
-      postId: req.params.postID
+      postId: req.params.postID,
+      userId: req.params.userID,
     }
     let createdComment = await commentModel.create(commentData);
     let commentsForId = await commentModel.findAll({ where: { postId: req.params.postID } });

@@ -3,7 +3,8 @@
 const { userModel } = require('../03-models');
 const base64 = require('base-64');
 const bcrypt = require('bcrypt');
-
+const jwt = require('jsonwebtoken');
+require('dotenv').config();
 
 async function basicAuth(req, res, next) {
   try {
@@ -15,7 +16,9 @@ async function basicAuth(req, res, next) {
     if (user) {
       let checkPassword = await bcrypt.compare(password, user.password);
       if (checkPassword) {
-        req.user = user;
+        const token = jwt.sign({ meow: user.username }, process.env.SECRET);
+        user.token = token;
+        req.signedUser = user;
         next();
       } else {
         res.status(403).send('Password is incorrect');

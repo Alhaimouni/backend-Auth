@@ -2,15 +2,16 @@
 
 const express = require('express');
 const { postModel, commentModel } = require('../03-models');
+const { bearerAuth } = require('../01-middlewares/bearerAuth');
 
 const router = express.Router();
 
 
-router.post('/post', Addpost);
-router.get('/post', getPosts);
-router.get('/post/:id', getOnePost);
-router.put('/post/:id', updatePost);
-router.delete('/post/:id', deletePost);
+router.post('/post', bearerAuth, Addpost);
+router.get('/post', bearerAuth, getPosts);
+router.get('/post/:id', bearerAuth, getOnePost);
+router.put('/post/:id', bearerAuth, updatePost);
+router.delete('/post/:id', bearerAuth, deletePost);
 
 
 //===== handlers =====//
@@ -18,8 +19,13 @@ router.delete('/post/:id', deletePost);
 
 async function Addpost(req, res, next) {
   try {
-    const userPost = req.body;   //req.body : {"title":"any text", "content":"any text"}
-    let createdPost = await postModel.create(userPost);
+    //req.body : {"title":"any text", "content":"any text"}
+    const postData = {
+      title: req.body.title,
+      content: req.body.content,
+      userId: req.user.id,
+    }
+    let createdPost = await postModel.create(postData);
     res.status(201).json(createdPost);
   } catch (err) {
     next(`Error inside Addpost function : ${err}`);
