@@ -5,7 +5,7 @@ const { userModel } = require('../03-models');
 
 async function checkUser(req, res, next) {
   try {
-    const { email, username, password } = req.body; //{"username":"any","email":"any","password":"any"}  must be as userModel properties names
+    const { email, username, password } = req.body; //{"username":"any","email":"any","password":"any","role":"admin/user"}  must be as userModel properties names
     let checkUsername = await userModel.findOne({ where: { username } });
     let checkemail = await userModel.findOne({ where: { email } });
     if (checkUsername) {

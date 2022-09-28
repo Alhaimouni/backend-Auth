@@ -11,7 +11,7 @@ const { userModel } = require('../03-models');
 
 router.post('/signup', checkUser, signup);
 router.post('/signin', basicAuth, signin);
-router.get('/users', getUsers);
+router.get('/users', bearerAuth, getUsers);
 
 
 

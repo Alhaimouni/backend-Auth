@@ -3,15 +3,16 @@
 const express = require('express');
 const { postModel, commentModel } = require('../03-models');
 const { bearerAuth } = require('../01-middlewares/bearerAuth');
+const { acl } = require('../01-middlewares/acl');
 
 const router = express.Router();
 
 
-router.post('/post', bearerAuth, Addpost);
-router.get('/post', bearerAuth, getPosts);
-router.get('/post/:id', bearerAuth, getOnePost);
-router.put('/post/:id', bearerAuth, updatePost);
-router.delete('/post/:id', bearerAuth, deletePost);
+router.post('/post', bearerAuth, acl('create'), Addpost);
+router.get('/post', bearerAuth, acl('read'), getPosts);
+router.get('/post/:id', bearerAuth, acl('read'), getOnePost);
+router.put('/post/:id', bearerAuth, acl('update'), updatePost);
+router.delete('/post/:id', bearerAuth, acl('delete'), deletePost);
 
 
 //===== handlers =====//
