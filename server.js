@@ -23,7 +23,6 @@ function serverStart(port) {
   app.listen(port, () => console.log(`Up and running @ ${port}`));
 }
 
-
 app.use('*', notFound);
 app.use(errorHandler);
 
