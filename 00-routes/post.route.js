@@ -1,7 +1,7 @@
 'use strict';
 
 const express = require('express');
-const { postModel, commentModel } = require('../03-models');
+const { postModel, commentModel, userModel } = require('../03-models');
 const { bearerAuth } = require('../01-middlewares/bearerAuth');
 const { acl } = require('../01-middlewares/acl');
 
@@ -35,7 +35,7 @@ async function Addpost(req, res, next) {
 
 async function getPosts(req, res, next) {
   try {
-    let posts = await postModel.findAll({ include: commentModel });
+    let posts = await postModel.findAll({ include: [commentModel, userModel] });
     res.status(200).send(posts);
   } catch (err) {
     next(`Error inside getPosts function : ${err}`);
