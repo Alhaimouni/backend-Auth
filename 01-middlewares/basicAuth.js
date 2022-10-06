@@ -24,7 +24,7 @@ async function basicAuth(req, res, next) {
         res.status(403).send('Password is incorrect');
       }
     } else {
-      res.status(203).send(`No user found SIGNUP`);
+      res.status(403).send(`No user found SIGNUP`);
     }
   } catch (err) {
     next(`Error inside basicAuth middleware : ${err}`);

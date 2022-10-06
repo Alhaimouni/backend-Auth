@@ -58,10 +58,11 @@ async function getOnePost(req, res, next) {
 
 async function updatePost(req, res, next) {
   try {
-    let id = req.params.id;
-    let newPostData = req.body;  //req.body : {"title":"any new data", "content":"any new data"}
-    await postModel.update(newPostData, { where: { id } });
-    let updatedPost = await postModel.findOne({ where: { id } });
+    let postId = req.params.id;
+    let newPostData = req.body;  //req.body : {"title":"any new data", "content":"any new data","userId":"id"}
+    console.log(newPostData);
+    await postModel.update(newPostData, { where: { id: postId } });
+    let updatedPost = await postModel.findOne({ where: { id: postId } });
     res.status(200).send(updatedPost);
   } catch (err) {
     next(`Error inside updatePost function : ${err}`);
