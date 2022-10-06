@@ -12,8 +12,8 @@ function createUserModel(sequelize, Datatypes) {
         type: Datatypes.VIRTUAL,
         get() {
           const capabilities = {
-            admin:['read','create','update','delete'],
-            user:['read','create'],
+            admin: ['read', 'create', 'update', 'delete'],
+            user: ['read', 'create', 'update', 'delete'],
           };
           return capabilities[this.role];
         }
